@@ -1,0 +1,15 @@
+spring:
+  r2dbc:
+    name: ms-study
+    url: r2dbc:pool:postgresql://localhost:5432/ms-study?schema=ms_study
+    username: postgres
+    password: postgres
+    pool:
+      initial-size: 10
+      max-size: 20
+      max-idle-time: 30m
+      validation-query: SELECT 1
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
