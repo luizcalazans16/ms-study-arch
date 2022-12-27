@@ -22,6 +22,12 @@ object AccountSQL {
         :created_at
     """
 
+    val FIND_BY_ACCOUNT_REFERENCE = """
+        SELECT $ALL_COLUMNS
+            FROM $TABLE_NAME a
+            WHERE a.account_reference = :account_reference
+    """.trimIndent()
+
     val INSERT = """
         INSERT INTO $TABLE_NAME (
             $ALL_COLUMNS

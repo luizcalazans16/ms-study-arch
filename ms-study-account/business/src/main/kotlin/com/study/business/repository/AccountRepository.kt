@@ -4,7 +4,7 @@ import com.study.business.model.Account
 
 interface AccountRepository {
 
-    suspend fun findByAccountReference(accountNumber: String)
+    suspend fun findByAccountReference(accountReference: String): Account?
 
     suspend fun create(account: Account): Account
 }

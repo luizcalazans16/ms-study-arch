@@ -3,7 +3,9 @@ package com.study.database.repository
 import com.study.business.model.Account
 import com.study.business.repository.AccountRepository
 import com.study.database.repository.account.AccountSQL
+import com.study.database.repository.extensions.getNotNull
 import io.r2dbc.spi.Row
+import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.r2dbc.core.DatabaseClient
 import org.springframework.r2dbc.core.awaitSingle
 import org.springframework.stereotype.Repository
@@ -13,8 +15,12 @@ class AccountJdbcRepository(
     private val databaseClient: DatabaseClient
 ) : AccountRepository {
 
-    override suspend fun findByAccountReference(accountNumber: String) {
-        TODO("Not yet implemented")
+    override suspend fun findByAccountReference(accountReference: String): Account? {
+        return databaseClient.sql(AccountSQL.FIND_BY_ACCOUNT_REFERENCE)
+            .bind("account_reference", accountReference)
+            .map { row, _ -> row.toCompleteAccount() }
+            .one()
+            .awaitSingleOrNull()
     }
 
     override suspend fun create(account: Account): Account {
