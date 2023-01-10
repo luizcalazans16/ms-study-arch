@@ -1,6 +1,6 @@
 package com.study.webservice.account
 
-import com.study.business.service.AccountService
+import com.study.account.business.service.AccountService
 import org.springframework.stereotype.Component
 import org.springframework.web.reactive.function.server.ServerRequest
 import org.springframework.web.reactive.function.server.ServerResponse

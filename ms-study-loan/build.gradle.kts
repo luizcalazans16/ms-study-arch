@@ -1,50 +1,64 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 
 plugins {
-	id("org.springframework.boot") version "3.0.1"
-	id("io.spring.dependency-management") version "1.1.0"
-	kotlin("jvm") version "1.7.22"
-	kotlin("plugin.spring") version "1.7.22"
+	kotlin("jvm") version "1.6.21"
+	kotlin("plugin.spring") version "1.6.21"
+
+	id("org.jlleitschuh.gradle.ktlint") version "10.1.0"
+	id("org.springframework.boot") version "2.7.0" apply false
+
+	jacoco
 }
 
-group = "com.study"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_17
-
-repositories {
-	mavenCentral()
-}
-
-extra["testcontainersVersion"] = "1.17.6"
-
-dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-r2dbc")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.springframework.boot:spring-boot-starter-webflux")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("io.projectreactor:reactor-test")
-	testImplementation("org.testcontainers:junit-jupiter")
-	testImplementation("org.testcontainers:r2dbc")
-}
-
-dependencyManagement {
-	imports {
-		mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
+allprojects {
+	group = "com.study.loan"
+	repositories {
+		mavenCentral()
+		maven { url = uri("https://repo.spring.io/milestone") }
+		maven { url = uri("https://packages.confluent.io/maven/") }
 	}
 }
 
-tasks.withType<KotlinCompile> {
-	kotlinOptions {
-		freeCompilerArgs = listOf("-Xjsr305=strict")
-		jvmTarget = "17"
+subprojects {
+	apply {
+		plugin("kotlin")
+		plugin("jacoco")
+		plugin("org.jlleitschuh.gradle.ktlint")
+		plugin("org.jetbrains.kotlin.plugin.spring")
 	}
-}
 
-tasks.withType<Test> {
-	useJUnitPlatform()
+	java {
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
+	}
+	dependencies {
+		implementation(platform("org.springframework.boot:spring-boot-dependencies:2.7.0"))
+		implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+		implementation("org.jetbrains.kotlin:kotlin-reflect")
+		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+		implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+		implementation("org.springframework.boot:spring-boot-starter-webflux")
+		implementation("org.springframework.boot:spring-boot-starter-actuator")
+		testImplementation("org.springframework.boot:spring-boot-starter-test")
+		testImplementation("io.projectreactor:reactor-test")
+	}
+
+	tasks {
+		compileKotlin {
+			kotlinOptions {
+				jvmTarget = java.sourceCompatibility.toString()
+				freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=all")
+			}
+		}
+		compileTestKotlin {
+			kotlinOptions {
+				jvmTarget = java.sourceCompatibility.toString()
+				freeCompilerArgs = listOf("-Xjsr305=strict", "-Xjvm-default=all")
+			}
+		}
+
+		test {
+			useJUnitPlatform()
+		}
+	}
 }
