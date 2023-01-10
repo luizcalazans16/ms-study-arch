@@ -26,8 +26,6 @@ subprojects {
         plugin("org.jlleitschuh.gradle.ktlint")
         plugin("org.jetbrains.kotlin.plugin.spring")
     }
-    group = "com.study.account"
-    version = "0.0.1-SNAPSHOT"
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
