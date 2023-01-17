@@ -1,0 +1,6 @@
+spring:
+  r2dbc:
+    name: ms-study
+    url: r2dbc:pool:postgresql://localhost:6543/ms-study?schema=ms_study
+    username: postgres
+    password: postgres
