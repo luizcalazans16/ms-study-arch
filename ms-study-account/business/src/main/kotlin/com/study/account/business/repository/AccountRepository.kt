@@ -7,4 +7,5 @@ interface AccountRepository {
     suspend fun findByAccountReference(accountReference: String): Account?
 
     suspend fun create(account: Account): Account
+    suspend fun update(account: Account): Account
 }

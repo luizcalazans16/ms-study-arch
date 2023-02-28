@@ -24,4 +24,9 @@ class AccountHandler(
         accountService.create(request.awaitBody())
         return ServerResponse.ok().buildAndAwait()
     }
+
+    suspend fun update(request: ServerRequest): ServerResponse {
+        accountService.update(request.awaitBody())
+        return ServerResponse.noContent()
+    }
 }

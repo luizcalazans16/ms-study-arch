@@ -15,6 +15,7 @@ class AccountRouter {
             "/api/v1/accounts".nest {
                 GET("", RequestPredicates.queryParam("account_reference") { true }, handler::findByAccountReference)
                 POST("", handler::create)
+                PUT("/{accountReference}", handler::update)
             }
         }
     }

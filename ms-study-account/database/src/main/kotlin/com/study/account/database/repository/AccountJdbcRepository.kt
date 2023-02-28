@@ -35,6 +35,18 @@ class AccountJdbcRepository(
             .awaitSingle()
     }
 
+    override suspend fun update(account: Account): Account {
+        return databaseClient.sql(AccountSQL.UPDATE)
+            .bind("account_reference", account.accountReference)
+            .bind("account_number", account.accountNumber)
+            .bind("customer_id", account.customerId)
+            .bind("account_type", account.accountType)
+            .bind("branch_address", account.branchAddress)
+            .bind("created_at", account.createdAt)
+            .map { row, _ -> row.toCompleteAccount() }
+            .awaitSingle()
+    }
+
     private fun Row.toCompleteAccount() = Account(
         accountReference = this.getNotNull("account_reference"),
         accountNumber = this.getNotNull("account_number"),

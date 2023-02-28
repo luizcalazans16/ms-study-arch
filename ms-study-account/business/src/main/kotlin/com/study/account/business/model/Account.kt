@@ -9,5 +9,6 @@ data class Account(
     val customerId: UUID,
     val accountType: String,
     val branchAddress: String,
-    val createdAt: Instant
+    val createdAt: Instant,
+    val updatedAt: Instant
 )

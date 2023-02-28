@@ -1,4 +1,7 @@
-
+val kotlinLoggingVersion: String by ext
+val springCloudVersion: String by ext
+val postgresSqlVersion: String by ext
+val postgresR2dbcDriverVersion: String by ext
 
 plugins {
     kotlin("jvm") version "1.6.21"
@@ -25,20 +28,34 @@ subprojects {
         plugin("jacoco")
         plugin("org.jlleitschuh.gradle.ktlint")
         plugin("org.jetbrains.kotlin.plugin.spring")
+        plugin("io.spring.dependency-management")
     }
 
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
+    configurations.implementation {
+        exclude(group = "io.projectreactor.netty", module = "reactor-netty-http-brave")
+        exclude(group = "org.springframework.cloud", module = "spring-cloud-sleuth-brave")
+    }
+
     dependencies {
         implementation(platform("org.springframework.boot:spring-boot-dependencies:2.7.0"))
+        implementation(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
+
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
         implementation("org.springframework.boot:spring-boot-starter-webflux")
         implementation("org.springframework.boot:spring-boot-starter-actuator")
+        implementation("io.github.microutils:kotlin-logging:$kotlinLoggingVersion")
+
+        implementation("org.postgresql:postgresql:$postgresSqlVersion")
+        implementation("io.r2dbc:r2dbc-postgresql:$postgresR2dbcDriverVersion")
+
         testImplementation("org.springframework.boot:spring-boot-starter-test")
         testImplementation("io.projectreactor:reactor-test")
     }

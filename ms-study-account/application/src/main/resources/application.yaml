@@ -4,3 +4,10 @@ spring:
     url: r2dbc:pool:postgresql://localhost:6543/ms-study?schema=ms_study
     username: postgres
     password: postgres
+server:
+  shutdown: graceful
+
+management:
+  info:
+    env:
+      enabled: true

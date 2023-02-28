@@ -36,4 +36,9 @@ object AccountSQL {
             $ALL_BINDS
         )
     """.trimIndent()
+
+    val UPDATE = """
+        UPDATE $TABLE_NAME
+            SET stat
+    """.trimIndent()
 }
