@@ -1,4 +1,4 @@
-package com.study.card.database.repository.card
+package com.study.card.database.card
 
 object CardSQL {
 

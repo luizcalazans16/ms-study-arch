@@ -2,8 +2,8 @@ package com.study.card.database.repository
 
 import com.study.card.business.model.Card
 import com.study.card.business.repository.CardRepository
-import com.study.card.database.repository.card.CardSQL
-import com.study.card.database.repository.extensions.getNotNull
+import com.study.card.database.card.CardSQL
+import com.study.card.database.extensions.getNotNull
 import io.r2dbc.spi.Row
 import kotlinx.coroutines.reactor.awaitSingleOrNull
 import org.springframework.r2dbc.core.DatabaseClient

@@ -1,4 +1,4 @@
-
+val springCloudVersion: String by ext
 
 plugins {
     kotlin("jvm") version "1.6.21"
@@ -25,6 +25,7 @@ subprojects {
         plugin("jacoco")
         plugin("org.jlleitschuh.gradle.ktlint")
         plugin("org.jetbrains.kotlin.plugin.spring")
+        plugin("io.spring.dependency-management")
     }
 
     java {
@@ -33,6 +34,12 @@ subprojects {
     }
     dependencies {
         implementation(platform("org.springframework.boot:spring-boot-dependencies:2.7.0"))
+        implementation(platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
+
+        implementation("org.springframework.cloud:spring-cloud-starter-sleuth") {
+            exclude(group = "org.springframework.cloud", module = "spring-cloud-sleuth-brave")
+        }
+
         implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")

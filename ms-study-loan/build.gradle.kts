@@ -33,6 +33,11 @@ subprojects {
 	}
 	dependencies {
 		implementation(platform("org.springframework.boot:spring-boot-dependencies:2.7.0"))
+
+
+		implementation("org.springframework.cloud:spring-cloud-starter-sleuth") {
+			exclude(group = "org.springframework.cloud", module = "spring-cloud-sleuth-brave")
+		}
 		implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
 		implementation("org.jetbrains.kotlin:kotlin-reflect")
 		implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
